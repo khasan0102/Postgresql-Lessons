@@ -39,8 +39,10 @@ VALUES (1, 2),
 SELECT
     f.favorite_id,
     u.username,
-    m.movie_name
+    ARRAY_AGG(m.movie_name),
+    COUNT(m.movie_name) AS movie_count
 FROM favorites AS f
 NATURAL JOIN users AS u
 NATURAL JOIN movies AS m
-GROUP BY f.user_id, u.username;
+GROUP BY f.user_id, u.username
+ORDER BY movie_count DESC, u.username;
